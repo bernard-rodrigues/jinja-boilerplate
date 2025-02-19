@@ -1,5 +1,7 @@
 # Import necessary modules from Jinja2
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+# Import BeautifulSoup to format the HTML output
+from bs4 import BeautifulSoup
 
 # Create a Jinja2 environment
 # - FileSystemLoader("./templates/") loads templates from the current directory
@@ -20,13 +22,17 @@ data = {
 # Render the template with the provided data
 rendered_template = template.render(data)
 
+# Use BeautifulSoup to format the HTML output
+soup = BeautifulSoup(rendered_template, "html.parser")
+formatted_html = soup.prettify()
+
 # Define the output file path
 output_path = "./index.html"
 
 # Try writing the rendered template to the output file
 try:
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write(rendered_template)
+        f.write(formatted_html)
     print(f"File created at: {output_path}")  # Success message
 except FileNotFoundError:
     # Raise an error if the output file path is invalid
